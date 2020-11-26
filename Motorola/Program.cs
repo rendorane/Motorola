@@ -31,7 +31,8 @@ namespace Motorola
                 bool gameOn = true;
 
                 Console.WriteLine("Name of the capital to guess:");
-                Console.WriteLine(String.Concat(Enumerable.Repeat(" _", capital.Length)));
+
+                ShowCapitalName(capital, rightLetters);
 
                 while (gameOn)
                 {
@@ -46,13 +47,6 @@ namespace Motorola
                     if (lifes == 1)
                     {
                         Console.WriteLine("Hint: The capital of " + country);
-                    }
-
-                    Console.WriteLine("Already used letters:");
-
-                    for (int i = 0; i < wrongLetters.Count; i++)
-                    {                       
-                        Console.Write(wrongLetters[i] + ", ");
                     }
 
                     Console.WriteLine();
@@ -70,18 +64,8 @@ namespace Motorola
                             Console.WriteLine("Very nice!");
                             rightLetters.Add(letter);
 
-                            for (int i = 0; i < capital.Length; i++)
-                            {
-                                if (capital[i] == letter)
-                                {
-                                    Console.Write(" " + letter);
-                                }
-                                else
-                                {
-                                    Console.Write(" _");
-                                }
-                            }
-                            Console.WriteLine();
+                            ShowCapitalName(capital, rightLetters);
+
                         }
                         else
                         {
@@ -90,12 +74,18 @@ namespace Motorola
                             {
                                 wrongLetters.Add(letter);
                                 lifes--;
+                                Console.WriteLine("Wrong letters used:");
+
+                                for (int i = 0; i < wrongLetters.Count; i++)
+                                {
+                                    Console.Write(wrongLetters[i] + ", ");
+                                }
                             }
 
                         }
 
                     }
-                    if (choice == 'w')
+                    else if (choice == 'w')
                     {
                         Console.Write("Enter correct answer: ");
                         string word = (Console.ReadLine());
@@ -115,6 +105,8 @@ namespace Motorola
                     {
                         Console.WriteLine("Type 'l' or 'w'");
                     }
+
+               
 
                 }
 
@@ -137,9 +129,17 @@ namespace Motorola
             {
                 string choice = Console.ReadLine();
 
-                if (choice.Length == 1)
+                if (choice.Length == 1 && choice != " ")
                 {
-                    return Convert.ToChar(choice);
+                    if (Char.IsLetter(Convert.ToChar(choice)))
+                    {
+                        return Convert.ToChar(choice);
+                    }
+                    else 
+                    {
+                        Console.WriteLine("Enter a single char");
+                    }
+                    
                 }
                 else
                 {
@@ -147,9 +147,28 @@ namespace Motorola
                 }
             }
 
+     
+        }
 
+        static void ShowCapitalName(string capital, List<char> rightLetters)
+        {
+            for (int i = 0; i < capital.Length; i++)
+            {
+                if (rightLetters.Contains(capital[i]))
+                {
+                    Console.Write(" " + capital[i]);
+                }
+                else if (capital[i] == ' ')
+                {
+                    Console.Write("  ");
+                }
+                else
+                {
+                    Console.Write(" _");
+                }
+            }
 
-
+            Console.WriteLine();
         }
 
     }
