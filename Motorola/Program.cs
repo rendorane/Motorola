@@ -23,15 +23,13 @@ namespace Motorola
                 string capitalUpperCase = splittedRecord[1].Trim();
                 string capital = splittedRecord[1].Trim().ToLower();
                 int lifes = 5;
+                int guessCount = 0;
 
                 List<char> rightLetters = new List<char>();
                 List<char> wrongLetters = new List<char>();
                 List<char> capitalLetters = new List<char>();
                 capitalLetters.AddRange(capital);
-
-
-
-                Console.WriteLine(capital);
+                                
                 Console.WriteLine("You have " + lifes + " lifes left");
                 Console.WriteLine("Name of the capital to guess:");
 
@@ -41,7 +39,7 @@ namespace Motorola
                 {
                     if (lifes <= 0)
                     {
-                        Console.WriteLine("You lost");
+                        Console.WriteLine("You lost :(");
                         break;
                     }
 
@@ -49,9 +47,8 @@ namespace Motorola
                     {
                         Console.WriteLine("Hint: The capital of " + country);
                     }
+
                     Console.WriteLine();
-                    Console.WriteLine(rightLetters.Count);
-                    Console.WriteLine(capitalLetters.Count);
                     Console.Write("Would you like to guess a single letter (l), or give it a shot and try with entire word (w): ");
                     char choice = GetCharFromUser();
 
@@ -64,6 +61,7 @@ namespace Motorola
                         {
                             Console.WriteLine("Very nice!");
                             rightLetters.Add(letter);
+                            guessCount++;
 
                             ShowCapitalName(capital, rightLetters);
 
@@ -75,9 +73,10 @@ namespace Motorola
                                 }
                             }
 
-                            if (capitalLetters.Count == 0) 
+                            if (capitalLetters.Count == 0)
                             {
                                 Console.WriteLine("You win!");
+                                HighScore(capitalUpperCase, guessCount);
                                 break;
                             }
                         }
@@ -85,19 +84,24 @@ namespace Motorola
                         {
                             Console.WriteLine("Oops! Try again!");
 
-                            if (!wrongLetters.Contains(letter))
+                            if (!capitalLetters.Contains(letter))
                             {
-                                wrongLetters.Add(letter);
                                 lifes--;
-                                Console.WriteLine("Wrong letters used:");
+                                guessCount++;
+
+                                if (!wrongLetters.Contains(letter))
+                                {
+                                    wrongLetters.Add(letter);
+                                }
+                                Console.WriteLine("Not-in-word list:");
 
                                 for (int i = 0; i < wrongLetters.Count; i++)
                                 {
                                     Console.Write(wrongLetters[i] + ", ");
                                 }
                                 Console.WriteLine();
-                                Console.WriteLine("You have " + lifes + " lifes left");
                             }
+                            Console.WriteLine("You have " + lifes + " lifes left");
 
                         }
                     }
@@ -106,25 +110,36 @@ namespace Motorola
                         Console.Write("Enter correct answer: ");
                         string word = Console.ReadLine();
 
-                        if (word == capital)
+                        if (word == capital || word == capitalUpperCase)
                         {
                             Console.WriteLine("Wow! That is correct! You win!");
                             Console.WriteLine(capitalUpperCase + " is a capital of " + country);
+                            guessCount++;
+                            HighScore(capitalUpperCase, guessCount);
                             break;
                         }
                         else
                         {
                             Console.WriteLine("Oops! Try again!");
                             lifes -= 2;
-                            Console.WriteLine("You have " + lifes + " lifes left");
+                            guessCount++;
+                            if (lifes >= 0)
+                            {
+                                Console.WriteLine("You have " + lifes + " lifes left");
+                            }
+                            else
+                            {
+                                Console.WriteLine("You have 0 lifes left");
+                            }
                         }
                     }
+
                     else
                     {
                         Console.WriteLine("Type 'l' or 'w'");
                     }
                 }
-                Console.Write("Would you like to start again? (y/n)");
+                Console.Write("Would you like to start again? (y/n) ");
                 char end = GetCharFromUser();
 
                 if (end == 'y')
@@ -137,10 +152,9 @@ namespace Motorola
                 }
                 else 
                 {
-                    Console.Write("y/n?");
+                    Console.Write("y/n? ");
                 }
             }
-
         }
 
         static char GetCharFromUser()
@@ -183,9 +197,15 @@ namespace Motorola
                     Console.Write(" _");
                 }
             }
-            Console.WriteLine();
+            Console.WriteLine();      
+        }
 
-        
+        static void HighScore(string capitalUpperCase, int guessCount) 
+        {
+            Console.Write("Enter your name: ");
+            string name = Console.ReadLine();
+            Console.WriteLine("Your score:");
+            Console.WriteLine(name + " | " + DateTime.Now + " | " + guessCount + " | " + capitalUpperCase);
         }
     }
 }
