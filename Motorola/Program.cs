@@ -24,6 +24,7 @@ namespace Motorola
                 string capital = splittedRecord[1].Trim().ToLower();
                 int lifes = 5;
                 int guessCount = 0;
+                DateTime dateBeginning = DateTime.Now;
 
                 List<char> rightLetters = new List<char>();
                 List<char> wrongLetters = new List<char>();
@@ -76,6 +77,9 @@ namespace Motorola
                             if (capitalLetters.Count == 0)
                             {
                                 Console.WriteLine("You win!");
+                                DateTime dateEnd = DateTime.Now;
+                                TimeSpan scoreTime = (dateEnd - dateBeginning);
+                                Console.WriteLine("You guessed the capital after " + guessCount + " letters. It took you " + scoreTime + " seconds");
                                 HighScore(capitalUpperCase, guessCount);
                                 break;
                             }
@@ -115,6 +119,9 @@ namespace Motorola
                             Console.WriteLine("Wow! That is correct! You win!");
                             Console.WriteLine(capitalUpperCase + " is a capital of " + country);
                             guessCount++;
+                            DateTime dateEnd = DateTime.Now;
+                            TimeSpan scoreTime = (dateEnd - dateBeginning);
+                            Console.WriteLine("You guessed the capital after " + guessCount + " letters. It took you " + scoreTime + " seconds");
                             HighScore(capitalUpperCase, guessCount);
                             break;
                         }
