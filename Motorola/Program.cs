@@ -30,6 +30,8 @@ namespace Motorola
                 List<char> wrongLetters = new List<char>();
                 List<char> capitalLetters = new List<char>();
                 capitalLetters.AddRange(capital);
+
+                Console.WriteLine(capital);
                                 
                 Console.WriteLine("You have " + lifes + " lifes left");
                 Console.WriteLine("Name of the capital to guess:");
@@ -121,7 +123,7 @@ namespace Motorola
                             guessCount++;
                             DateTime dateEnd = DateTime.Now;
                             TimeSpan scoreTime = (dateEnd - dateBeginning);
-                            Console.WriteLine("You guessed the capital after " + guessCount + " letters. It took you " + scoreTime + " seconds");
+                            Console.WriteLine("You guessed the capital after " + guessCount + " letters. It took you " + Math.Round(scoreTime.TotalSeconds) + " seconds");
                             HighScore(capitalUpperCase, guessCount);
                             break;
                         }
@@ -211,8 +213,9 @@ namespace Motorola
         {
             Console.Write("Enter your name: ");
             string name = Console.ReadLine();
+            string score = name + " | " + DateTime.Now + " | " + guessCount + " | " + capitalUpperCase;
             Console.WriteLine("Your score:");
-            Console.WriteLine(name + " | " + DateTime.Now + " | " + guessCount + " | " + capitalUpperCase);
+            Console.WriteLine(score);
         }
     }
 }
