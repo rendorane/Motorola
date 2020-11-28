@@ -17,7 +17,7 @@ namespace Motorola
             {
                 List<string> countriesAndCapitals = File.ReadLines(@"C:\\Users\\Marian\\source\repos\\Motorola\\Motorola\\countries_and_capitals.txt").ToList();
                 Random rnd = new Random();
-                string pickedRecord = (countriesAndCapitals[rnd.Next(0, countriesAndCapitals.Count)]);
+                string pickedRecord = countriesAndCapitals[rnd.Next(0, countriesAndCapitals.Count)];
                 string[] splittedRecord = pickedRecord.Split('|');
                 string country = splittedRecord[0].Trim();
                 string capitalUpperCase = splittedRecord[1].Trim();
@@ -165,7 +165,7 @@ namespace Motorola
                 }
             }
         }
-
+        
         static char GetCharFromUser()
         {
             while (true)
@@ -188,7 +188,7 @@ namespace Motorola
                     Console.WriteLine("Enter a single char");
                 }
             }
-        }
+        }     
         static void ShowCapitalName(string capital, List<char> rightLetters)
         {
             for (int i = 0; i < capital.Length; i++)
